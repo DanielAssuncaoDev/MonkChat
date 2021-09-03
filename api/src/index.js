@@ -175,7 +175,7 @@ app.put('/chat/:id', async (req, resp) => {
             {where: { id_chat: id } }
         )
         
-        resp.send({opa: r.ds_mensagem})
+        resp.sendStatus(200)
 
     } catch (error) {
         resp.send({erro: error.toString()})
