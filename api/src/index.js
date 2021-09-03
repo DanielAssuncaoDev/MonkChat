@@ -8,13 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 
-// ESSE DANDINHO É TODO PINPOSO
-
-// REALMENTE, ELE É TODO LINDO
-
-// AI GENTE, PAAAAARA
-
-// É A MAIS PURA VERDADDEEEE MORE
+// Dandinho Lindoo
 
 
 app.post('/sala', async (req, resp) => {
