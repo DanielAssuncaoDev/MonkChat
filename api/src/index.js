@@ -14,6 +14,8 @@ app.use(express.json());
 
 // AI GENTE, PAAAAARA
 
+// É A MAIS PURA VERDADDEEEE MORE
+
 
 app.post('/sala', async (req, resp) => {
     try {
