@@ -48,4 +48,9 @@ export default class Api {
         let r = await api.delete(`/chat/${idMensagem}`)
         return r.data        
     }
+
+    async alterarMensagem(idMensagem, mensagem){
+        let r = await api.put(`/chat/${idMensagem}`, {mensagem})
+        return r.data
+    }
 }

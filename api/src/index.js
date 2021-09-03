@@ -172,10 +172,10 @@ app.put('/chat/:id', async (req, resp) => {
 
         let r = await db.tb_chat.update(
             {ds_mensagem: msg},
-            {where: { id_chat: id }
-        })
+            {where: { id_chat: id } }
+        )
         
-        resp.send(r)
+        resp.send({opa: r.ds_mensagem})
 
     } catch (error) {
         resp.send({erro: error.toString()})

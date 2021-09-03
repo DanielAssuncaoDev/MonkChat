@@ -32,7 +32,7 @@ export default function Conteudo() {
 
     let Logado = usuarioLogado(nav) || {};
 
-    
+    const [idMensagem, setIdMensagem] = useState(0);
     const [chat, setChat] = useState([]);
     const [sala, setSala] = useState('teste²');
     const [usu, setUsu] = useState(Logado.nm_usuario);
@@ -67,11 +67,21 @@ export default function Conteudo() {
             return
         }
 
-        const resp = await api.inserirMensagem(sala, usu, msg);
-        if (!validarResposta(resp)) 
-            return;
-        
-        toast.dark('💕 Mensagem enviada com sucesso!');
+        if(idMensagem > 0){
+            const resp = await api.alterarMensagem(idMensagem, msg)
+            if (!validarResposta(resp)) 
+                return;
+
+                toast.dark('💕 Mensagem alterada com sucesso!');
+            
+        }else{
+            const resp = await api.inserirMensagem(sala, usu, msg);
+            if (!validarResposta(resp)) 
+                return;
+            
+            toast.dark('💕 Mensagem enviada com sucesso!');
+        }
+
         await carregarMensagens();
     }
 
@@ -98,6 +108,11 @@ export default function Conteudo() {
         await carregarMensagens();
         toast.dark('💕 Mensagem Deletada!');
     }
+
+    const alterarMensagem = async(idMensagem ,msg) => {
+        setIdMensagem(idMensagem)
+        setMsg(msg)
+    } 
     
     return (
         <ContainerConteudo>
@@ -135,7 +150,8 @@ export default function Conteudo() {
                     {chat.map(x =>
                         <div key={x.id_chat}>
                             <div className="chat-message">
-                                <div onClick={() => deletarMensagem(x.id_chat) } > <img src="/assets/images/delete.svg" alt="" style={{cursor: "pointer"}} /> </div>
+                                <div> <img onClick={() => alterarMensagem(x.id_chat, x.ds_mensagem) } src="/assets/images/edit.svg" alt="" /> </div>
+                                <div> <img onClick={() => deletarMensagem(x.id_chat) }  src="/assets/images/delete.svg" alt="" style={{cursor: "pointer"}} /> </div>
                                 <div>({new Date(x.dt_mensagem.replace('Z', '')).toLocaleTimeString()})</div>
                                 <div><b>{x.tb_usuario.nm_usuario}</b> fala para <b>Todos</b>:</div>
                                 <div> {x.ds_mensagem} </div>
