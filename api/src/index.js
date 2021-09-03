@@ -1,6 +1,7 @@
 import db from './db.js';
 import express from 'express'
 import cors from 'cors'
+import crypto from 'crypto-js'
 
 const app = express();
 app.use(cors());
@@ -44,11 +45,14 @@ app.post('/usuario', async (req, resp) => {
             return resp.send({ erro: 'Usuário já existe!' });
         
         let r = await db.tb_usuario.create({
-            nm_usuario: usuParam.nome
+            nm_usuario: usuParam.nome,
+            ds_login: usuParam.login,
+            ds_senha: crypto.SHA256(usuParam.senha).toString(crypto.enc.Base64)
+            // S: omaiorerroénãoerrar L: Dandinho Dev
         })
         resp.send(r);
     } catch (e) {
-        resp.send({ erro: 'Ocorreu um erro!'})
+        resp.send(e.toString())
     }
 })
 
@@ -115,6 +119,51 @@ app.get('/chat/:sala', async (req, resp) => {
         resp.send(e.toString())
     }
 })
+
+app.post('/login', async (req, resp) => {
+    try {
+        let usu = req.body
+        const senhacrypto = crypto.SHA256(usu.senha).toString(crypto.enc.Base64)
+
+        let r = await db.tb_usuario.findOne({
+              where: {
+                ds_login: usu.user,
+                ds_senha: senhacrypto
+              },
+              raw: true  
+            })
+
+
+        if (r == null){
+            resp.send({erro: "Credenciais Invalidos!"})
+        }
+
+        delete(r.ds_senha)
+        resp.send(r)
+
+
+    } catch (error) {
+        resp.send(error.toString())
+    }
+})
+
+
+app.delete('/chat/:id', async (req, resp) => {
+    try {
+        
+        let idMensagem = req.params.id
+
+        let r = await db.tb_chat.destroy({
+            where: {id_chat: idMensagem}
+        })
+
+        resp.sendStatus(200)
+
+    } catch (error) {
+        resp.send(error.toString())
+    }
+})
+
 
 
 

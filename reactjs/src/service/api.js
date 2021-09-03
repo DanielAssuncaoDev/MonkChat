@@ -32,4 +32,20 @@ export default class Api {
         let r = await api.post(`/usuario/`, { nome: usuario });
         return r.data;
     }
+
+    async login(senha, user) {
+        let l = {
+            user: user,
+            senha: senha
+        } 
+
+        let r = await api.post(`/login/`, l)
+        return r.data
+    }
+
+
+    async deletarMensagem(idMensagem) {
+        let r = await api.delete(`/chat/${idMensagem}`)
+        return r.data        
+    }
 }
