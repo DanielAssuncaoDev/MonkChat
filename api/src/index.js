@@ -12,6 +12,8 @@ app.use(express.json());
 
 // REALMENTE, ELE É TODO LINDO
 
+// AI GENTE, PAAAAARA
+
 
 app.post('/sala', async (req, resp) => {
     try {
