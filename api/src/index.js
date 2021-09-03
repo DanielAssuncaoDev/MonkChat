@@ -10,6 +10,8 @@ app.use(express.json());
 
 // ESSE DANDINHO É TODO PINPOSO
 
+// REALMENTE, ELE É TODO LINDO
+
 
 app.post('/sala', async (req, resp) => {
     try {
