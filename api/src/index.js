@@ -8,6 +8,9 @@ app.use(cors());
 app.use(express.json());
 
 
+// ESSE DANDINHO É TODO PINPOSO
+
+
 app.post('/sala', async (req, resp) => {
     try {
         let salaParam = req.body;
