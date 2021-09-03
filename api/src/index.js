@@ -8,8 +8,6 @@ app.use(cors());
 app.use(express.json());
 
 
-// Dandinho Lindoo
-
 
 app.post('/sala', async (req, resp) => {
     try {
@@ -163,7 +161,24 @@ app.delete('/chat/:id', async (req, resp) => {
         resp.sendStatus(200)
 
     } catch (error) {
-        resp.send(error.toString())
+        resp.send({erro: error.toString()})
+    }
+})
+
+app.put('/chat/:id', async (req, resp) => {
+    try {
+        let id = req.params.id
+        let msg = req.body.mensagem
+
+        let r = await db.tb_chat.update(
+            {ds_mensagem: msg},
+            {where: { id_chat: id }
+        })
+        
+        resp.send(r)
+
+    } catch (error) {
+        resp.send({erro: error.toString()})
     }
 })
 
